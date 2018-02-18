@@ -1,0 +1,17 @@
+AllCops:
+  Exclude:
+    - spec/**/*
+    - db/**/*
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+Metrics/MethodLength:
+  Max: 15
+Metrics/LineLength:
+  Max: 120
+Style/Lambda:
+  Enabled: false
+Style/DotPosition:
+  Enabled: false
