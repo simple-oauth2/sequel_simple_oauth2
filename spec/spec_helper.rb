@@ -17,16 +17,20 @@ end
 
 require 'ffaker'
 require 'sequel'
+require 'bcrypt'
 require 'database_cleaner'
 
 require_relative '../config/db'
 require File.expand_path('../../lib/sequel_simple_oauth2', __FILE__)
-require 'support/access_grant'
-require 'support/access_token'
-require 'support/client'
-require 'support/user'
+require 'support/mixins/access_grant'
+require 'support/mixins/access_token'
+require 'support/mixins/client'
+require 'support/mixins/user'
+require 'support/generate_password'
 
 RSpec.configure do |config|
+  config.include Resource::GeneratePassword
+
   config.order = :random
   config.color = true
 

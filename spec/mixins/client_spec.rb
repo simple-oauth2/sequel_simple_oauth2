@@ -12,7 +12,7 @@ describe Client do
   context 'associations' do
     let(:scopes) {}
     let(:redirect_uri) { client.redirect_uri }
-    let(:user) { User.create(username: FFaker::Internet.user_name, encrypted_password: FFaker::Internet.password) }
+    let(:user) { User.create(username: FFaker::Internet.user_name, encrypted_password: generate_password) }
 
     context '#access_tokens' do
       subject { client.access_tokens }

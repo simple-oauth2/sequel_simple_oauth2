@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe AccessToken do
-  let(:user) { User.create(username: FFaker::Internet.user_name, encrypted_password: FFaker::Internet.password) }
+  let(:user) { User.create(username: FFaker::Internet.user_name, encrypted_password: generate_password) }
   let(:client) { Client.create(name: FFaker::Internet.domain_word, redirect_uri: 'http://localhost:3000/home') }
   let(:scopes) { 'read write' }
   let(:access_token) { described_class.create_for(client, user, scopes) }

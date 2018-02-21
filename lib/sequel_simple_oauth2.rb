@@ -1,4 +1,5 @@
 require 'simple_oauth2'
+require 'bcrypt'
 
 require 'sequel_simple_oauth2/mixins/access_token'
 require 'sequel_simple_oauth2/mixins/access_grant'
