@@ -16,7 +16,7 @@ module Sequel
         # Level changes for implementation level detail changes, such as small bug fixes
         PATCH = 0
         # Level changes for any backwards compatible API changes, such as new functionality/features
-        MINOR = 1
+        MINOR = 2
         # Level changes for backwards incompatible API changes,
         # such as changes that will break existing users code if they update
         MAJOR = 0
