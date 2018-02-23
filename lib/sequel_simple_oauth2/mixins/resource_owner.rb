@@ -31,6 +31,26 @@ module Sequel
             end
           end
 
+          # Searches for ResourceOwner record with the specific params.
+          #
+          # @param _client [Object] Client instance.
+          # @param username [String, #to_s] username value (any object that responds to `#to_s`).
+          # @param password [String] password value.
+          #
+          # @return [Object, nil] ResourceOwner object or nil if there is no record with such params.
+          #
+          # @example
+          #   User.create(username: 'foo', password: 'foo')
+          #   user = User.oauth_authenticate(nil, 'foo', 'password')
+          #   user.username # => 'foo'
+          #   another_user = User.oauth_authenticate(nil, 'notfoo', 'password')
+          #   another_user # => nil
+          #
+          def self.oauth_authenticate(_client, username, password)
+            resource_owner = first(username: username.to_s)
+            resource_owner && resource_owner.authenticate(password)
+          end
+
           # Returns resource if the password is correct, otherwise +false+.
           #
           # @param pass [String] Password value.
@@ -45,7 +65,6 @@ module Sequel
           #
           def authenticate(pass)
             password.is_password?(pass) && self
-            # BCrypt::Password.new(encrypted_password).is_password?(pass) && self
           end
 
           # Returns encrypted password if encrypted_password is not empty.
@@ -55,8 +74,8 @@ module Sequel
           # @example
           #   user = User.new
           #   user.password = 'foo'
-          #   user.password          #=> "$2a$10$4LEA7r4YmNHtvlAvHhsYAeZmk/xeUVtMTYqwIvYY76EW5GUqDiP4."
-          #   user.password == 'foo' #=> true
+          #   user.password          # => "$2a$10$4LEA7r4YmNHtvlAvHhsYAeZmk/xeUVtMTYqwIvYY76EW5GUqDiP4."
+          #   user.password == 'foo' # => true
           #
           def password
             @password ||= BCrypt::Password.new(encrypted_password) if encrypted_password
@@ -68,7 +87,7 @@ module Sequel
           #
           # @example
           #   user = User.new
-          #   user.min_cost? #=> false
+          #   user.min_cost? # => false
           #
           def min_cost?
             false
@@ -83,9 +102,9 @@ module Sequel
           # @example
           #   user = User.new
           #   user.password = nil
-          #   user.encrypted_password #=> nil
+          #   user.encrypted_password # => nil
           #   user.password = 'foo'
-          #   user.encrypted_password #=> "$2a$10$4LEA7r4YmNHtvlAvHhsYAeZmk/xeUVtMTYqwIvYY76EW5GUqDiP4."
+          #   user.encrypted_password # => "$2a$10$4LEA7r4YmNHtvlAvHhsYAeZmk/xeUVtMTYqwIvYY76EW5GUqDiP4."
           #
           def password=(pass)
             if pass.present? && pass.length >= MAX_PASSWORD_LENGTH_ALLOWED

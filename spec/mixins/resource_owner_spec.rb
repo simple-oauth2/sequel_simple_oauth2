@@ -3,6 +3,8 @@ require 'spec_helper'
 describe User do
   let(:user) { User.new(username: FFaker::Internet.user_name, encrypted_password: generate_password) }
   let(:pass) { Resource::GeneratePassword::DEFAULT_PASSWORD }
+  let(:username) { user.username }
+  let(:_client) {}
 
   context 'validations' do
     let(:pass) {}
@@ -46,6 +48,28 @@ describe User do
       let(:pass) { generate_password }
 
       it { expect { subject }.to raise_error(ArgumentError, /Password is longer than 72 characters/) }
+    end
+  end
+
+  context '.oauth_authenticate' do
+    subject do
+      user.save
+      described_class.oauth_authenticate(_client, username, pass)
+    end
+
+    it { is_expected.to eq user }
+    it { is_expected.not_to be_nil }
+
+    context 'when username is nil' do
+      let(:username) {}
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when password is nil' do
+      let(:pass) {}
+
+      it { is_expected.to be_falsey }
     end
   end
 

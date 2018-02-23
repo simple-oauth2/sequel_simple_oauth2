@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - spec/**/*
     - db/**/*
+    - sequel_simple_oauth2.rb
 
 Style/FrozenStringLiteralComment:
   Enabled: false
